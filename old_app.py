@@ -1,7 +1,6 @@
 
-wait for you,
 
-After waking up, what do you do?
+Af   [ yes i am  ]ter waking up, what do you do?
 
 
 
