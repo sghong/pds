@@ -7,3 +7,5 @@ Af   [ yes i am  ]ter waking up, what do you do?
 My job
 
 sir, it's traditional Korean mask, We call it 'taal'
+
+easy
