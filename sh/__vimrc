@@ -1,0 +1,154 @@
+set nocompatible
+"set nu
+set tagbsearch
+set nocompatible
+set laststatus=10
+set statusline=%h%F%m%r%=[%l:%c(%p%%)]
+set tabstop=4
+set expandtab
+set softtabstop=4
+"set visualbell
+set smartindent
+set incsearch
+set cindent
+set autoindent
+set background=dark
+set ruler
+set nobackup
+set hlsearch
+set textwidth=180
+set backspace=eol,start,indent
+set history=1000
+set showmatch
+set wrap
+set shiftwidth=4
+set timeoutlen=1000
+set hidden
+set cursorline
+set csprg=/usr/bin/cscope
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+"set cscopetagorder=1
+"set cscopetag
+"set cscopepathcomp=1
+set csto=0
+set cst
+set guifont=Courier\ New:h9:cANSI
+
+set mouse=an
+set nocsverb
+
+if filereadable("./cscope.out")
+    cs add $PWD/cscope.out
+    "cs add cscope.out
+endif
+
+set csverb
+"set tags=./tags,/usr/include/tags,/usr/src/linux-headers-2.6.32.4/tags
+set tags=./tags
+
+filetype on
+
+"Taglist
+let Tlist_File_Fold_Auto_Close=1
+
+syntax on
+set t_Co=256
+"colors darkblue
+colorscheme lucius
+"set t_AB=^[[48;5;%dm
+"set t_AF=^[[38;5;%dm
+hi Identifier term=underline guifg=#99FFFF
+hi cCustomFunc  gui=bold guifg=yellowgreen 
+hi cCustomClass gui=reverse guifg=#00FF00 
+
+
+let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'Dir':{}, 'MruFile':{}, 'MruCmd':{}, 'FavFile':{}, 'Tag':{}, 'TaggedFile':{}}
+	
+"let g:FuzzyFinderOptions.File.excluded_path =
+"	'\v\~$|\.o$|\.exe$|\.bak$|\.swp$|\.class$|\.settings$|CVS|((^|[/\\])\.[/\\]$)'
+
+let NERDTreeWinPos=1
+let g:FuzzyFinderOptions.Base.ignore_case = 0
+
+let Grep_Path = '/bin/grep'
+let Grep_OpenQuickfixWindow = 1
+let Grep_Default_Options = '-rn'
+"let Grep_Default_Filelist = '*.c *.cpp *.C *.min *.mak *.asm *.txt *.h *.H *Makefile'
+let Grep_Default_Filelist = '*'
+let mapleader=","
+
+map <F2> :TlistToggle<CR>
+map <F4> :tn<CR>
+map <Leader><F3> i//chjeon<C-R>=strftime("%Y%m%d")<ESC>@PS2<ESC>
+map <Leader><F4> i//chjeon<C-R>=strftime("%Y%m%d")<ESC>@PS2<ESC>
+map <F4> :tn<CR>
+map <F3> :tp<CR>
+map <F6> :cn<CR>
+map <F5> :cp<CR>
+map <Leader><F6> :cnewer<CR>
+map <Leader><F5> :colder<CR>
+map <F8> :bnext<CR>
+map <F7> :bprevious<CR>
+map <Leader><F7> :cope<CR>
+map <Leader><F8> :ccl<CR>
+"nnoremap <silent> <F9> :Rgrep<CR>
+"nnoremap <silent> <Leader><F9> :RgrepAdd<CR>
+nmap <F9> :cs find g <C-R>=expand("<cword>") <CR><CR>
+nmap <F10> :cs find c <C-R>=expand("<cword>") <CR><CR>
+nmap <F11> :cs find s <C-R>=expand("<cword>") <CR><CR>
+nmap <Leader><F12> :TrinityToggleSourceExplorer<CR>
+"nmap <C-c> :!mkcscope.sh<CR>:!cs kill -l<CR>:!cs add $PWD/cscope.out<CR>
+nmap <C-c> :!mkcscope.sh<CR>:cs kill -l<CR>:cs add $PWD/cscope.out<CR>
+"nmap <Leader><F12> :cd $PWD<CR>:CommandT<CR>
+
+nmap <Leader>cs :cs f s <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>cg :cs f g <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>cc :cs f c <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>ct :cs f t <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>ce :cs f e <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>cf :cs f f <C-R>=expand("<cfile>")<CR><CR>
+nmap <Leader>ci :cs f i <C-R>=expand("<cfile>")<CR><CR>
+nmap <Leader>cd :cs f d <C-R>=expand("<cword>")<CR><CR>
+nmap <Leader>cr :cs reset<CR> 
+nmap <Leader>be :BufExplorer<CR> 
+
+nmap <Leader>fs :cs f s 
+nmap <Leader>fg :cs f g 
+nmap <Leader>fc :cs f c 
+nmap <Leader>ft :cs f t 
+nmap <Leader>fe :cs f e 
+nmap <Leader>ff :cs f f 
+nmap <Leader>fi :cs f i 
+nmap <Leader>fd :cs f d 
+
+"map <Leader>ff <ESC>:FufFile**/<CR>
+"map <Leader>fd <ESC>:FufDir**/<CR>
+"map <Leader>fb <ESC>:FufBuffer<CR>
+map <C-\> :sp<CR><C-w>20<C-w>_<C-]><C-k>
+map <Leader>nt :NERDTreeToggle<CR>
+
+" // The switch of the Source Explorer
+nmap <C-H> <C-W>h
+nmap <C-J> <C-W>j
+nmap <C-K> <C-W>k
+nmap <C-L> <C-W>l
+
+
+
+"-----------------------------------------------------
+" clearcase configuration
+"-----------------------------------------------------
+nmap <C-C><C-A> :!cleartool setact
+imap <C-C><C-A> <ESC>:!cleartool setact
+nmap <C-C><C-O> :!cleartool co %<CR>
+imap <C-C><C-O> <ESC>:!cleartool co %<CR>
+nmap <C-C><C-I> :!cleartool ci %<CR>
+imap <C-C><C-I> <ESC>:!cleartool ci %<CR>
+nmap <C-C><C-U> :!cleartool unco %<CR>
+imap <C-C><C-U> <ESC>:!cleartool unco %<CR>
+nmap <C-C><C-L> :!cleartool lsact
+imap <C-C><C-L> <ESC>:!cleartool lsact
+nmap <C-U><C-H> :!cleartool update -overwrite %<CR>
+imap <C-U><C-H> <ESC>:!cleartool update -overwrite %<CR>
+
+
