@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ $# = 0 ]; then
+    echo "Usage: hgrep file-type string  "
+    exit 0
+    fi
+
+
+#find ./ -name "*.[cSh]" -o -name "*.cpp" -type f | xargs grep "$1" -n
+find ./ -name "$1" -type f | xargs grep "$2" -n
+#find ./ -name "$1" 
