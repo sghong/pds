@@ -1,0 +1,86 @@
+if CUST_PANTECH_H
+
+if MACH_MSM8974_EF56S
+config DEFINE_LIST_EF56S
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+    select PANTECH_TAP_SENSOR
+endif
+
+if MACH_MSM8974_EF59S
+config DEFINE_LIST_EF59S
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+if MACH_MSM8974_EF59K
+config DEFINE_LIST_EF59K
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+if MACH_MSM8974_EF59L
+config DEFINE_LIST_EF59L
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+if MACH_MSM8974_EF60S
+config DEFINE_LIST_EF60S
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+    select CHECK_HWREV_FOR_CHANGING_PROXIMITY_THRESHOLD
+endif
+
+if MACH_MSM8974_EF61K
+config DEFINE_LIST_EF61K
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+    select CHECK_HWREV_FOR_CHANGING_PROXIMITY_THRESHOLD
+endif
+
+if MACH_MSM8974_EF62L
+config DEFINE_LIST_EF62L
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+    select CHECK_HWREV_FOR_CHANGING_PROXIMITY_THRESHOLD
+endif
+
+if MACH_MSM8974_EF63S
+config DEFINE_LIST_EF63S
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+if MACH_MSM8974_EF63K
+config DEFINE_LIST_EF63K
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+if MACH_MSM8974_EF63L
+config DEFINE_LIST_EF63L
+    bool
+    default y
+    select PANTECH_SENSOR_SLEEP_STATUS
+endif
+
+config PANTECH_SENSOR_SLEEP_STATUS
+    bool
+
+config CHECK_HWREV_FOR_CHANGING_PROXIMITY_THRESHOLD
+    bool
+
+config PANTECH_TAP_SENSOR
+    bool
+
+endif
