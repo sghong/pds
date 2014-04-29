@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sensor_table"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+
+	<View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_acc_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_acc_res"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_acc_dev"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:padding="10dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090" />
+        
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_mag_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/tv_mag_res"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/tv_mag_dev"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_pro_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/tv_pro_res"
+            android:layout_column="2"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/tv_pro_null"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_lig_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+        <TextView
+            android:id="@+id/tv_lig_res"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="3dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_gyr_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_gyr_res"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_gyr_dev"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+ 
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_pre_lbl"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_pre_res"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_pre_dev"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#4040FF"
+            android:textSize="20dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+    <View
+        android:layout_height="2dip"
+        android:background="#FF909090"
+    />
+      
+    <TableRow>
+        <Button
+        	android:layout_column="1"
+        	android:layout_height="35dip"
+	    	android:id="@+id/btn_detail"
+	    	android:gravity="center"
+	    	android:textSize="12dip" />
+	</TableRow>
+	
+	
+	<TableRow>
+        <TextView
+            android:id="@+id/tv_det_cal"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_cal_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+	
+	<TableRow>
+        <TextView
+            android:id="@+id/tv_det_acc"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_acc_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_acc_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_acc_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+	
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_det_mag"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_mag_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_mag_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_mag_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+     <TableRow>
+        <TextView
+            android:id="@+id/tv_det_ori"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_ori_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_ori_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_ori_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_det_pro"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pro_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pro_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pro_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+     <TableRow>
+        <TextView
+            android:id="@+id/tv_det_lig"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_lig_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_lig_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_lig_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+     <TableRow>
+        <TextView
+            android:id="@+id/tv_det_gyr"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_gyr_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_gyr_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_gyr_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:id="@+id/tv_det_pre"
+            android:layout_column="1"
+            android:gravity="left"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pre_x"
+            android:layout_column="2"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pre_y"
+            android:layout_column="3"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+        <TextView
+            android:id="@+id/tv_det_pre_z"
+            android:layout_column="4"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="15dip"
+            android:padding="1dip" />
+    </TableRow>
+    
+</TableLayout>

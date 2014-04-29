@@ -1,0 +1,690 @@
+/*
+ * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2009 Yamaha Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.pantech.babak;
+
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class babak extends Activity implements SensorEventListener {
+    private final static String TAG = "SensorTest4648";
+    private final static int MASK_ACC = 1;
+    private final static int MASK_MAG = 2;
+    private final static int MASK_ORI = 4;
+    private final static int MASK_PRO = 8;
+    private final static int MASK_LIG = 16;
+    private final static int MASK_GYR = 32;
+    private final static int MASK_PRE = 64;
+    private final static int MASK_ALL = MASK_ACC + MASK_MAG + MASK_ORI + MASK_PRO + MASK_LIG + MASK_GYR + MASK_PRE;
+    private static int mRunningMask = 0;
+    private static int mRunningCount = 0;
+    private static boolean mLigChanged = false;
+    
+    private final static int DEV_CHECK_ACC = 0;
+	private final static int DEV_CHECK_MAG = 1;
+	private final static int DEV_CHECK_PRO = 2;
+	private final static int DEV_CHECK_LIG = 3;
+	private final static int DEV_CHECK_GYR = 4;
+	private final static int DEV_CHECK_PRE = 5;
+	
+    private final static int DEV_NO = 0;
+    private final static int DEV_NG = 1;
+    private final static int DEV_OK = 2;
+    private final static int RES_FAIL = 0;
+    private final static int RES_PASS = 1;
+    
+    private final static String STR_DEV_NO = "(NO)";
+    private final static String STR_DEV_NG = "(NG)";
+    private final static String STR_DEV_OK = "(OK)";
+    private final static String STR_RES_FAIL = "[FAIL]";
+    private final static String STR_RES_PASS = "[PASS]";
+    
+    private TextView mTvAccLbl, mTvAccDev, mTvAccRes;
+    private TextView mTvMagLbl, mTvMagDev, mTvMagRes;
+    private TextView mTvProLbl, mTvProRes;
+    private TextView mTvLigLbl, mTvLigRes;
+    private TextView mTvGyrLbl, mTvGyrDev, mTvGyrRes;
+    private TextView mTvPreLbl, mTvPreDev, mTvPreRes;
+    
+    private TextView mTvAccuracy, mTvAccuracyX;
+    private TextView mTvAcc, mTvAccX, mTvAccY, mTvAccZ;
+    private TextView mTvMag, mTvMagX, mTvMagY, mTvMagZ;
+    private TextView mTvOri, mTvOriX, mTvOriY, mTvOriZ;
+    private TextView mTvPro, mTvProX, mTvProY, mTvProZ;
+    private TextView mTvLig, mTvLigX, mTvLigY, mTvLigZ;
+    private TextView mTvGyr, mTvGyrX, mTvGyrY, mTvGyrZ;
+    private TextView mTvPre, mTvPreX, mTvPreY, mTvPreZ;
+    
+    private boolean mDetailRunning = false;
+    private Button mBtnDetailRunning;
+    
+    private SensorManager mSensorManager = null;
+    private Sensor mAccSensor = null, mMagSensor = null, mOriSensor = null, mGyrSensor = null;
+    private Sensor mProSensor = null, mLigSensor = null, mPreSensor = null;
+    private int mMagAccuracy = 0;
+    private float mAccX = 0, mAccY = 0, mAccZ = 0;
+    private float mMagX = 0, mMagY = 0, mMagZ = 0;
+    private float mOriX = 0, mOriY = 0, mOriZ = 0;
+    private float mProX = 2, mProY = 0, mProZ = 0;
+    private float mLigX = 0, mLigY = 0, mLigZ = 0;
+    private float mGyrX = 0, mGyrY = 0, mGyrZ = 0;
+    private float mPreX = 0, mPreY = 0, mPreZ = 0;
+    private float mMagIntensity = 0, mAccIntensity = 0;
+    private float mProIntensity = 0, mLigIntensity = 0;
+    
+	private Vibrator vib;
+	private boolean mVibRunning = false;
+
+	private final static int MAX_ACC_DIFF_BUF_SIZE = 5;
+	private float mAccDiffBuf[] = new float [MAX_ACC_DIFF_BUF_SIZE];
+	private int mAccDiffBufIndex = 0;
+
+	private final static int MAX_MAG_DIFF_BUF_SIZE = 4;
+	private float mMagDiffBuf[] = new float [MAX_MAG_DIFF_BUF_SIZE];
+	private int mMagDiffBufIndex = 0;
+
+	private final static int MAX_LIG_DIFF_BUF_SIZE = 3;
+	
+	private static final int FUNCTIONTEST_COMMAND = 0x10007001;
+    private int mGyroResult = -1;
+	private int mGyrResult = 0;
+
+	
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+	   	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); 
+
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (mSensorManager == null) {
+            return;
+        }
+
+        mAccSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	 if(mAccSensor == null) {
+	 	Log.d(TAG, "Accelerometer does not exist");
+	 }
+	 
+        mMagSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+	 if(mMagSensor == null) {
+	 	Log.d(TAG, "Magnetic does not exist");
+	 }
+	 
+        mOriSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+	 if(mOriSensor == null) {
+	 	Log.d(TAG, "Orientation does not exist");
+	 }
+	 
+        mProSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+	 if(mProSensor == null) {
+	 	Log.d(TAG, "Proximity does not exist");
+	 }
+	 
+        mLigSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+	 if(mLigSensor == null) {
+	 	Log.d(TAG, "Light sensor does not exist");
+	 }
+	  
+     mGyrSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+     if(mGyrSensor == null) {
+	 	Log.d(TAG, "Gyroscope does not exist");
+	 }
+	  
+     mPreSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+     if(mPreSensor == null) {
+	 	Log.d(TAG, "Pressure does not exist");
+	 }
+		
+        setContentView(R.layout.main);
+        mTvAccLbl = (TextView) findViewById(R.id.tv_acc_lbl); 
+        mTvAccDev = (TextView) findViewById(R.id.tv_acc_dev); 
+        mTvAccRes = (TextView) findViewById(R.id.tv_acc_res);
+        mTvMagLbl = (TextView) findViewById(R.id.tv_mag_lbl); 
+        mTvMagDev = (TextView) findViewById(R.id.tv_mag_dev);
+        mTvMagRes = (TextView) findViewById(R.id.tv_mag_res);
+        mTvProLbl = (TextView) findViewById(R.id.tv_pro_lbl); 
+        mTvProRes = (TextView) findViewById(R.id.tv_pro_res);
+        mTvLigLbl = (TextView) findViewById(R.id.tv_lig_lbl); 
+        mTvLigRes = (TextView) findViewById(R.id.tv_lig_res);
+        mTvGyrLbl = (TextView) findViewById(R.id.tv_gyr_lbl); 
+        mTvGyrDev = (TextView) findViewById(R.id.tv_gyr_dev); 
+        mTvGyrRes = (TextView) findViewById(R.id.tv_gyr_res);
+        mTvPreLbl = (TextView) findViewById(R.id.tv_pre_lbl); 
+        mTvPreDev = (TextView) findViewById(R.id.tv_pre_dev); 
+        mTvPreRes = (TextView) findViewById(R.id.tv_pre_res);
+        
+        mBtnDetailRunning = (Button) findViewById(R.id.btn_detail);
+        mBtnDetailRunning.setText("Detail >>");
+        mBtnDetailRunning.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if(mDetailRunning == true){
+					mBtnDetailRunning.setText("Detail >>");
+					mDetailRunning = false;
+					displayDetail(0);
+				}
+				else{
+					mBtnDetailRunning.setText("<< Detail");
+					mDetailRunning = true;
+					displayDetail(MASK_ALL);
+				}
+			}
+		});
+
+        mTvAccuracy = (TextView) findViewById(R.id.tv_det_cal);
+        mTvAccuracyX = (TextView) findViewById(R.id.tv_det_cal_x);
+        mTvAcc = (TextView) findViewById(R.id.tv_det_acc);
+        mTvAccX = (TextView) findViewById(R.id.tv_det_acc_x);
+        mTvAccY = (TextView) findViewById(R.id.tv_det_acc_y);
+        mTvAccZ = (TextView) findViewById(R.id.tv_det_acc_z);
+        mTvMag = (TextView) findViewById(R.id.tv_det_mag);
+        mTvMagX = (TextView) findViewById(R.id.tv_det_mag_x);
+        mTvMagY = (TextView) findViewById(R.id.tv_det_mag_y);
+        mTvMagZ= (TextView) findViewById(R.id.tv_det_mag_z);
+        mTvOri = (TextView) findViewById(R.id.tv_det_ori);
+        mTvOriX = (TextView) findViewById(R.id.tv_det_ori_x);
+        mTvOriY = (TextView) findViewById(R.id.tv_det_ori_y);
+        mTvOriZ= (TextView) findViewById(R.id.tv_det_ori_z);
+        mTvPro = (TextView) findViewById(R.id.tv_det_pro);
+        mTvProX = (TextView) findViewById(R.id.tv_det_pro_x);
+        mTvProY = (TextView) findViewById(R.id.tv_det_pro_y);
+        mTvProZ = (TextView) findViewById(R.id.tv_det_pro_z);
+        mTvLig = (TextView) findViewById(R.id.tv_det_lig);
+        mTvLigX = (TextView) findViewById(R.id.tv_det_lig_x);
+        mTvLigY = (TextView) findViewById(R.id.tv_det_lig_y);
+        mTvLigZ = (TextView) findViewById(R.id.tv_det_lig_z);
+        mTvGyr = (TextView) findViewById(R.id.tv_det_gyr);
+        mTvGyrX = (TextView) findViewById(R.id.tv_det_gyr_x);
+        mTvGyrY = (TextView) findViewById(R.id.tv_det_gyr_y);
+        mTvGyrZ = (TextView) findViewById(R.id.tv_det_gyr_z);
+        mTvPre = (TextView) findViewById(R.id.tv_det_pre);
+        mTvPreX = (TextView) findViewById(R.id.tv_det_pre_x);
+        mTvPreY = (TextView) findViewById(R.id.tv_det_pre_y);
+        mTvPreZ = (TextView) findViewById(R.id.tv_det_pre_z);
+        
+        vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+    }
+
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+	
+        synchronized (this) {
+/*			
+            if (mSensorManager == null || mAccSensor == null
+                    || mMagSensor == null || mLigSensor == null
+                    || mProSensor == null || mGyrSensor == null) {
+                return;
+            }
+*/            
+	    
+	     if(mGyrSensor != null)
+			gyroSelfTest();
+
+            if (!mSensorManager.registerListener(this, mAccSensor,
+                                        SensorManager.SENSOR_DELAY_NORMAL)) {
+                Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mMagSensor,
+                                        SensorManager.SENSOR_DELAY_NORMAL)) {
+                Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mOriSensor,
+                    					SensorManager.SENSOR_DELAY_NORMAL)) {
+            	Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mProSensor,
+                                        SensorManager.SENSOR_DELAY_NORMAL)) {
+                Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mLigSensor,
+                                        SensorManager.SENSOR_DELAY_NORMAL)) {
+                Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mGyrSensor,
+                                        SensorManager.SENSOR_DELAY_NORMAL)) {
+                Log.e(TAG, "registerListener failed");
+            }
+            if (!mSensorManager.registerListener(this, mPreSensor,
+                    					SensorManager.SENSOR_DELAY_NORMAL)) {
+            	Log.e(TAG, "registerListener failed");
+            }
+            
+			displayResult(MASK_ALL);
+			displayDetail(MASK_ALL);
+
+        }
+    }
+
+    protected void onPause() {
+	super.onPause();
+	Log.d(TAG, "onPause");
+
+
+	synchronized (this) {
+/*		
+		if (mSensorManager == null || mAccSensor == null
+			|| mMagSensor == null || mOriSensor == null || mLigSensor == null
+			|| mProSensor == null || mGyrSensor == null) {
+		    return;
+		}
+*/		
+		if(mAccSensor != null)
+			mSensorManager.unregisterListener(this, mAccSensor);
+		if(mMagSensor != null)
+			mSensorManager.unregisterListener(this, mMagSensor);
+		if(mOriSensor != null)
+			mSensorManager.unregisterListener(this, mOriSensor);
+		if(mProSensor != null)
+			mSensorManager.unregisterListener(this, mProSensor);
+		if(mLigSensor != null)
+			mSensorManager.unregisterListener(this, mLigSensor);
+		if(mGyrSensor != null)
+			mSensorManager.unregisterListener(this, mGyrSensor);
+		if(mPreSensor != null)
+			mSensorManager.unregisterListener(this, mPreSensor);
+	}
+        
+	if(mVibRunning == true) {
+		vib.cancel();
+		mVibRunning = false;
+	}
+    	
+    }
+
+    protected void onStart() {
+      super.onStart();
+    	Log.d(TAG, "onStart");
+    }
+
+    protected void onStop() {
+      super.onStop();
+			Log.d(TAG, "onStop");
+			if(mVibRunning == true)
+			{
+				vib.cancel();
+				mVibRunning = false;
+			}
+    }
+
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        switch (sensor.getType()) {
+        case Sensor.TYPE_MAGNETIC_FIELD:
+            mMagAccuracy = accuracy;
+            break;
+        default:
+            break;
+        }
+    }
+	
+	private float calcIntensity(float x, float y, float z)
+    {
+        return (float)Math.sqrt(x*x + y*y + z*z);
+    }
+
+	public void onSensorChanged(SensorEvent event) {
+		/*
+		mtv.setText(String.valueOf(event.values[0]));
+		mtv.setTextColor(Color.argb(255,255,0,0));
+		*/
+		int mask = 0;
+		synchronized (this) {
+            switch (event.sensor.getType()) {
+            case Sensor.TYPE_ACCELEROMETER:
+            	getSensorData(MASK_ACC, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_ACC;
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+            	getSensorData(MASK_MAG, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_MAG;
+                break;
+            case Sensor.TYPE_ORIENTATION:
+            	getSensorData(MASK_ORI, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_ORI;
+                break;
+            case Sensor.TYPE_PROXIMITY:
+            	getSensorData(MASK_PRO, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_PRO;
+                break;
+            case Sensor.TYPE_LIGHT:
+            	getSensorData(MASK_LIG, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_LIG;
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+            	getSensorData(MASK_GYR, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_GYR;
+                break;
+            case Sensor.TYPE_PRESSURE:
+            	getSensorData(MASK_PRE, event.values[0], event.values[1], event.values[2]);
+				mask = MASK_PRE;
+                break;
+            default:
+                break;
+            }
+			displayResult(mask);
+			displayDetail(mask);
+        }
+	}
+	
+	private void getSensorData(int mask, float valx, float valy, float valz)
+	{
+		switch(mask)
+		{
+		case MASK_ACC:
+			if( (mAccX==valx) && (mAccY==valy) && (mAccZ==valz) ) mask = 0;
+			mAccX=valx; mAccY=valy; mAccZ=valz;
+			break;
+		case MASK_MAG:
+			mMagX=valx; mMagY=valy; mMagZ=valz;
+			break;
+		case MASK_ORI:
+			mOriX=valx; mOriY=valy; mOriZ=valz;
+			break;
+		case MASK_PRO:
+			mProX=valx; mProY=valy; mProZ=valz;
+			break;
+		case MASK_LIG:
+			if( (mLigX==valx) && (mLigY==valy) && (mLigZ==valz) ) mLigChanged = false;
+			else mLigChanged = true;
+			mLigX=valx; mLigY=valy; mLigZ=valz;
+			break;
+		case MASK_GYR:
+			mGyrX=valx; mGyrY=valy; mGyrZ=valz;
+			break;
+		case MASK_PRE:
+			mPreX=valx; mPreY=valy; mPreZ=valz;
+			break;
+		}
+
+		if(mRunningCount == 20) mRunningMask = 0;
+		if( (mRunningCount > 20) && (mRunningCount<30))
+		{
+			mRunningMask = mRunningMask | mask;
+		}
+		if(mRunningCount<30) mRunningCount = mRunningCount + 1;
+	}
+	
+	private void displayResult(int mask)
+	{
+		int resAcc = DEV_NG, resMag = DEV_NG, resPro = DEV_NO, resLig = DEV_NO;
+		int notRunning = MASK_ALL - mRunningMask;
+
+		// acc
+		if( (mask & MASK_ACC) > 0 ) {
+			if( (notRunning & MASK_ACC) > 0 ) resAcc = DEV_NO;
+			if( (resAcc != DEV_NO) && (mAccX>-1.78) && (mAccX<1.78) && (mAccY>-1.78) && (mAccY<1.78) && (mAccZ>7.6) && (mAccZ<12.02) ) resAcc = DEV_OK;
+			mTvAccLbl.setText("Accelerometer");
+			mTvAccLbl.setTextColor(Color.argb(255,255,255,255));
+			switch(resAcc)
+			{
+			case DEV_NO:
+				mTvAccDev.setText(STR_DEV_NO);
+				mTvAccDev.setTextColor(Color.argb(255,255,0,0));
+				mTvAccRes.setText(STR_RES_FAIL);
+				mTvAccRes.setTextColor(Color.argb(255,255,0,0));
+			break;
+		case DEV_NG:
+			mTvAccDev.setText(STR_DEV_NG);
+			mTvAccDev.setTextColor(Color.argb(255,255,0,0));
+			mTvAccRes.setText(STR_RES_FAIL);
+			mTvAccRes.setTextColor(Color.argb(255,255,0,0));
+			break;
+		case DEV_OK:
+			mTvAccDev.setText(STR_DEV_OK);
+			mTvAccDev.setTextColor(Color.argb(255,0,0,255));
+			mTvAccRes.setText(STR_RES_PASS);
+			mTvAccRes.setTextColor(Color.argb(255,0,0,255));
+				break;
+			}
+		}
+
+		// mag
+		if( (mask & MASK_MAG) > 0 ) {
+			if( (notRunning & MASK_MAG) > 0 ) resMag = DEV_NO;
+			if( (resMag != DEV_NO) && (mMagAccuracy > 0) ) resMag = DEV_OK;
+
+			mTvMagLbl.setText("MagneticField");
+			mTvMagLbl.setTextColor(Color.argb(255,255,255,255));
+			switch(resMag)
+			{
+			case DEV_NO:
+			mTvMagDev.setText(STR_DEV_NO);
+			mTvMagDev.setTextColor(Color.argb(255,255,0,0));
+			mTvMagRes.setText(STR_RES_FAIL);
+			mTvMagRes.setTextColor(Color.argb(255,255,0,0));
+			break;
+		case DEV_NG:
+			mTvMagDev.setText(STR_DEV_NG);
+			mTvMagDev.setTextColor(Color.argb(255,0,0,255));
+			mTvMagRes.setText(STR_RES_PASS);
+			mTvMagRes.setTextColor(Color.argb(255,0,0,255));
+			break;
+		case DEV_OK:
+			mTvMagDev.setText(STR_DEV_OK);
+			mTvMagDev.setTextColor(Color.argb(255,0,0,255));
+			mTvMagRes.setText(STR_RES_PASS);
+			mTvMagRes.setTextColor(Color.argb(255,0,0,255));
+				break;
+			}
+		}
+
+		// pro
+		if( (mask & MASK_PRO) > 0 ) {
+
+			if(mProX == 0)
+                                resPro = DEV_OK;
+                        else
+                                resPro = DEV_NO;
+
+			mTvProLbl.setText("Proximity");
+			mTvProLbl.setTextColor(Color.argb(255,255,255,255));		  
+ 
+			switch(resPro)
+			{
+			case DEV_NO:
+				mTvProRes.setText("[FAR]");
+				mTvProRes.setTextColor(Color.argb(255,255,0,0));
+				if(mVibRunning == true) {
+					vib.cancel();
+					mVibRunning = false;
+				}
+				break;
+			case DEV_OK:
+				mTvProRes.setText("[NEAR]");
+				mTvProRes.setTextColor(Color.argb(255,0,0,255));
+					if( (mVibRunning == false)  ){
+						vib.vibrate(0xFFFF);
+					mVibRunning = true;
+				}
+				break;
+			}
+		}
+		
+		// lig
+		if( (mask & MASK_LIG) > 0 ) {
+			if( (mLigX <=30) && (mLigX>0) ) resLig = DEV_OK;
+			else resLig = DEV_NO;
+
+
+			mTvLigLbl.setText("Light");
+			mTvLigLbl.setTextColor(Color.argb(255,255,255,255));
+			switch(resLig)
+			{
+			case DEV_NO:
+				mTvLigRes.setText("["+mLigZ+"]");
+				mTvLigRes.setTextColor(Color.argb(255,255,0,0));
+				break;
+			case DEV_OK:
+				mTvLigRes.setText("["+mLigZ+"]");
+				mTvLigRes.setTextColor(Color.argb(255,0,0,255));
+				break;
+			}
+		}
+
+		// gyro
+		if( (mask & MASK_GYR) > 0 ) {
+			mTvGyrLbl.setText("Gyroscope");
+			mTvGyrLbl.setTextColor(Color.argb(255,255,255,255));
+			if(mGyroResult!=0) {
+				mTvGyrDev.setText(STR_DEV_NG);
+				mTvGyrDev.setTextColor(Color.argb(255,0,0,255));
+				mTvGyrRes.setText(STR_RES_PASS);
+				mTvGyrRes.setTextColor(Color.argb(255,0,0,255));
+			}
+			else {
+				mTvGyrDev.setText(STR_DEV_OK);
+				mTvGyrDev.setTextColor(Color.argb(255,0,0,255));
+				mTvGyrRes.setText(STR_RES_PASS);
+				mTvGyrRes.setTextColor(Color.argb(255,0,0,255));
+			}
+		}
+
+	}		
+
+	private void displayDetail(int mask)
+	{
+		if(mDetailRunning == true) {
+			// acc
+			if( (mask & MASK_ACC) > 0 ) {
+				mTvAcc.setText("Accelerometer"); 
+				mTvAccX.setText(String.format("%.1f", mAccX));
+				mTvAccY.setText(String.format("%.1f", mAccY));
+				mTvAccZ.setText(String.format("%.1f", mAccZ));
+			}
+				
+			// mag
+			if( (mask & MASK_MAG) > 0 ) {
+				mTvAccuracy.setText("Accuracy"); 
+				mTvAccuracyX.setText(String.valueOf(mMagAccuracy));
+				mTvMag.setText("Magneticfield"); 
+				mTvMagX.setText(String.format("%.1f", mMagX));
+				mTvMagY.setText(String.format("%.1f", mMagY));
+				mTvMagZ.setText(String.format("%.1f", mMagZ));
+			}
+				
+			// ori
+			if( (mask & MASK_ORI) > 0 ) {
+				mTvOri.setText("Orientation"); 
+				mTvOriX.setText(String.format("%.1f", mOriX));
+				mTvOriY.setText(String.format("%.1f", mOriY));
+				mTvOriZ.setText(String.format("%.1f", mOriZ));
+			}
+				
+			// pro
+			if( (mask & MASK_PRO) > 0 ) {
+				mTvPro.setText("Proximity"); 
+				mTvProX.setText(String.format("%.0f", mProX));
+				mTvProY.setText(String.format("%.0f", mProY));
+				mTvProZ.setText(String.format("%.0f", mProZ));
+			}
+		
+			// lig
+			if( (mask & MASK_LIG) > 0 ) {
+				mTvLig.setText("Light"); 
+				mTvLigX.setText(String.format("%.0f", mLigX));
+				mTvLigY.setText(String.format("%.0f", mLigY));
+				mTvLigZ.setText(String.format("%.0f", mLigZ));
+			}
+				
+			// gyr
+			if( (mask & MASK_GYR) > 0 ) {
+				mTvGyr.setText("Gyroscope"); 
+				mTvGyrX.setText(String.format("%.1f", mGyrX));
+				mTvGyrY.setText(String.format("%.1f", mGyrY));
+				mTvGyrZ.setText(String.format("%.1f", mGyrZ));
+			}
+
+			// pre
+			if( (mask & MASK_PRE) > 0 ) {
+				mTvPre.setText("Pressure"); 
+				mTvPreX.setText(String.format("%.1f", mPreX));
+				mTvPreY.setText(String.format("%.1f", mPreY));
+				mTvPreZ.setText(String.format("%.1f", mPreZ));
+			}
+		}
+
+        if (mask==0 || mDetailRunning==false) {
+        	mTvAccuracy.setText(""); 
+        	mTvAccuracyX.setText("");
+        	
+        	mTvAcc.setText(""); 
+        	mTvAccX.setText(""); 
+        	mTvAccY.setText(""); 
+        	mTvAccZ.setText(""); 
+        	
+        	mTvMag.setText(""); 
+        	mTvMagX.setText(""); 
+        	mTvMagY.setText(""); 
+        	mTvMagZ.setText(""); 
+        	
+        	mTvOri.setText(""); 
+        	mTvOriX.setText(""); 
+        	mTvOriY.setText(""); 
+        	mTvOriZ.setText(""); 
+        	
+        	mTvPro.setText(""); 
+        	mTvProX.setText(""); 
+        	mTvProY.setText(""); 
+        	mTvProZ.setText(""); 
+        	
+        	mTvLig.setText(""); 
+        	mTvLigX.setText(""); 
+        	mTvLigY.setText(""); 
+        	mTvLigZ.setText(""); 
+        	
+        	mTvGyr.setText(""); 
+        	mTvGyrX.setText(""); 
+        	mTvGyrY.setText(""); 
+        	mTvGyrZ.setText("");
+
+        	mTvPre.setText(""); 
+        	mTvPreX.setText(""); 
+        	mTvPreY.setText(""); 
+        	mTvPreZ.setText("");
+        }
+	}
+	
+	private void gyroSelfTest() {
+		//Toast.makeText(SensorTest4648.this, "Gyroscope Selftest Running.Please hold still while this update is running.", 1000).show();
+		Log.d(TAG, "SelfTest sleep start");
+		try {
+			Thread.sleep(1000);
+		} catch(InterruptedException e) {
+		}
+		Log.d(TAG, "SelfTest sleep end");
+
+		//mGyroResult = MplTest.selfTest(); 
+		//Toast.makeText(SensorTest4648.this, "Gyroscope Selftest was over.", 1000).show();
+		Log.d(TAG, "mGyroResult = " + mGyroResult);
+		displayResult(MASK_ALL);
+	}
+
+	
+}
+
