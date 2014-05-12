@@ -1,4 +1,4 @@
-test/*
+/*
  * Copyright (C) 2007 The Android Open Source Project
  * Copyright (C) 2009 Yamaha Corporation
  *
@@ -32,6 +32,19 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+//import android.os.FileUtils;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+
+import android.os.Environment;
+import java.text.SimpleDateFormat;                                                                                                               
+import java.util.Date;
 
 public class babak extends Activity implements SensorEventListener {
     private final static String TAG = "SensorTest4648";
@@ -116,6 +129,16 @@ public class babak extends Activity implements SensorEventListener {
     private int mGyroResult = -1;
 	private int mGyrResult = 0;
 
+	private int mGyroFileCount = 0;
+
+    private FileOutputStream mfos ;
+    String mtestStrCR;
+    File mgyrofile;
+
+    String tmpx = "";
+    String tmpy = "";
+    String tmpz = "";
+
   //store accel and mag values to compute orientation
   float[] mAccel;
   float[] mMag;
@@ -160,10 +183,12 @@ public class babak extends Activity implements SensorEventListener {
 	 	Log.d(TAG, "Gyroscope does not exist");
 	 }
 	  
+     /*
      mPreSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
      if(mPreSensor == null) {
 	 	Log.d(TAG, "Pressure does not exist");
 	 }
+     */
 		
         setContentView(R.layout.main);
         mTvAccLbl = (TextView) findViewById(R.id.tv_acc_lbl); 
@@ -191,11 +216,13 @@ public class babak extends Activity implements SensorEventListener {
 					mBtnDetailRunning.setText("Detail >>");
 					mDetailRunning = false;
 					displayDetail(0);
+                    //gyrofile(mDetailRunning);
 				}
 				else{
 					mBtnDetailRunning.setText("<< Detail");
 					mDetailRunning = true;
 					displayDetail(MASK_ALL);
+                    //gyrofile(mDetailRunning);
 				}
 			}
 		});
@@ -232,6 +259,7 @@ public class babak extends Activity implements SensorEventListener {
         mTvPreZ = (TextView) findViewById(R.id.tv_det_pre_z);
         
         vib = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        //gyrofile(mDetailRunning);
     }
 
     protected void onResume() {
@@ -274,10 +302,12 @@ public class babak extends Activity implements SensorEventListener {
                                         SensorManager.SENSOR_DELAY_NORMAL)) {
                 Log.e(TAG, "registerListener failed for mGyrSensor");
             }
+            /*
             if (!mSensorManager.registerListener(this, mPreSensor,
                     					SensorManager.SENSOR_DELAY_NORMAL)) {
             	Log.e(TAG, "registerListener failed for mPreSensor");
             }
+            */
             
 			displayResult(MASK_ALL);
 			displayDetail(MASK_ALL);
@@ -350,6 +380,70 @@ public class babak extends Activity implements SensorEventListener {
     {
         return (float)Math.sqrt(x*x + y*y + z*z);
     }
+    private void Save_SensorData(String Path)
+    {
+        try{
+
+            //File file =new File(Environment.getExternalStorageDirectory().getPath(), Path);                 
+            String mSdPath;
+            boolean bdir;
+            String ext = Environment.getExternalStorageState(); 
+
+            if(ext.equals(Environment.MEDIA_MOUNTED)) {
+                mSdPath = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath();
+            } else {
+                mSdPath = Environment.MEDIA_UNMOUNTED;                                                                                               
+            }
+            
+            //mSdPath = "/data";
+            String dirPath = getFilesDir().getAbsolutePath();
+            mSdPath = dirPath;
+
+            File dir = new File(mSdPath + "/sns_monitor");
+		    Log.d(TAG, "dir = " + dir.getName() );
+		    Log.d(TAG, "mSdPath = " + mSdPath );
+            bdir = dir.mkdirs();
+		    Log.d(TAG, "mkdir = " + dir.toString());
+		    Log.d(TAG, "mkdir bool = " + bdir);
+
+            String dateString = (new SimpleDateFormat("yyyy-MM-dd_HH-mm")
+                    .format(new Date()));
+            //String filename = "sns_monitor_log."+dateString+".txt";
+            String filename = "sns_monitor_log.txt";
+            File file = new File(mSdPath + "/sns_monitor/"+filename);
+
+		    Log.d(TAG, "file = " + file.toString());
+
+            //mfos = new FileOutputStream(file);
+            mgyrofile = file;
+
+            Log.d(TAG, "Save_SensorData function file"+file.toString());            
+
+            String data;
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");//dd/MM
+            Date now = new Date();
+            String strDate = sdfDate.format(now);           
+            data=new String("["+strDate+"] :"+String.format("%s \t %s \t %s\n",new Float(mGyrX),new Float(mGyrY),new Float(mGyrZ) ));
+
+                    //if file doesnt exists, then create
+                    //it
+                    if(!file.exists()){
+                        Log.d(TAG, "Save_SensorData function Error [file.exists]");            
+                        file.createNewFile();
+                    }
+
+            //true = append file
+            FileWriter fileWritter = new FileWriter(file,true);
+            BufferedWriter bufferWritter = new
+                BufferedWriter(fileWritter);
+            bufferWritter.write(data);
+            bufferWritter.close();
+        }catch(IOException
+                e){
+            e.printStackTrace();
+        }
+    }
 
 	public void onSensorChanged(SensorEvent event) {
 		/*
@@ -383,6 +477,26 @@ public class babak extends Activity implements SensorEventListener {
                 break;
             case Sensor.TYPE_GYROSCOPE:
             	getSensorData(MASK_GYR, event.values[0], event.values[1], event.values[2]);
+
+		        //Log.d(TAG, "mDetailRunning = " +mDetailRunning );
+                if(mDetailRunning){
+                    Save_SensorData("Gyro");
+                }
+                /*
+                if(mDetailRunning){
+                    try{
+                        mtestStrCR = tmpx.valueOf(event.values[0]) + "\t" + tmpy.valueOf(event.values[1]) + "\t"+ tmpz.valueOf(event.values[2]+ "\n");
+
+                        FileWriter fileWritter = new FileWriter(mgyrofile,true);
+                        BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
+                        bufferWritter.write(mtestStrCR);
+                        bufferWritter.close();
+                    }catch(IOException e){
+                        e.printStackTrace();
+                    }
+                } 
+                */
+
 				mask = MASK_GYR;
                 break;
             case Sensor.TYPE_PRESSURE:
@@ -414,7 +528,7 @@ public class babak extends Activity implements SensorEventListener {
                 pitch   = (orientation[1] * (float)180.0)/(float)3.1415;
                 roll    = (orientation[2] * (float)180.0)/(float)3.1415;
 
-                Log.d(TAG, "Azimuth:" + azimuth + " Pitch:"  + pitch + " Roll:" + roll);
+                //Log.d(TAG, "Azimuth:" + azimuth + " Pitch:"  + pitch + " Roll:" + roll);
                 mOriX = pitch;
                 mOriY = roll;
                 mOriZ = azimuth;
@@ -607,8 +721,82 @@ public class babak extends Activity implements SensorEventListener {
 
 	}		
 
+	private void gyrofile(boolean mDetailRunning)
+	{
+		Log.d(TAG, "mDetailRunning= " + mDetailRunning );
+
+        FileOutputStream outputStream = null;
+
+        try {
+            String mSdPath;
+            boolean bdir;
+            String ext = Environment.getExternalStorageState(); 
+
+            if(ext.equals(Environment.MEDIA_MOUNTED)) {
+                mSdPath = Environment.getExternalStorageDirectory()
+                    .getAbsolutePath();
+            } else {
+                mSdPath = Environment.MEDIA_UNMOUNTED;                                                                                               
+            }
+            
+            //mSdPath = "/data";
+            String dirPath = getFilesDir().getAbsolutePath();
+            mSdPath = dirPath;
+
+            File dir = new File(mSdPath + "/sns_monitor");
+		    Log.d(TAG, "dir = " + dir.getName() );
+		    Log.d(TAG, "mSdPath = " + mSdPath );
+            bdir = dir.mkdirs();
+		    Log.d(TAG, "mkdir = " + dir.toString());
+		    Log.d(TAG, "mkdir bool = " + bdir);
+
+            String dateString = (new SimpleDateFormat("yyyy-MM-dd_HH-mm")
+                    .format(new Date()));
+            String filename = "sns_monitor_log."+dateString+".txt";
+            File file = new File(mSdPath + "/sns_monitor/"+filename);
+
+		    Log.d(TAG, "file = " + file.toString());
+
+            //mfos = new FileOutputStream(file);
+            mgyrofile = file;
+
+            if(!mgyrofile.exists()){
+                Log.d(TAG, "Save_SensorData function Error [file.exists]");         
+                mgyrofile.createNewFile();
+            }
+            
+            String testStr = "log";
+            String testStrCR = "\n";
+            //mfos.write(testStr.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //mfos.write(testStrCR.getBytes());
+            //fos.close();
+            
+            /*
+            FileWriter writer = new FileWriter(file);
+
+            writer.append("ddd");
+            writer.append("ddd");
+
+            writer.flush();
+            writer.close();
+            */
+        } 
+        catch (FileNotFoundException ex) {} 
+        catch (IOException ex) {}
+
+
+    }
+
 	private void displayDetail(int mask)
 	{
+
 		if(mDetailRunning == true) {
 			// acc
 			if( (mask & MASK_ACC) > 0 ) {
@@ -655,9 +843,9 @@ public class babak extends Activity implements SensorEventListener {
 			// gyr
 			if( (mask & MASK_GYR) > 0 ) {
 				mTvGyr.setText("Gyroscope"); 
-				mTvGyrX.setText(String.format("%.1f", mGyrX));
-				mTvGyrY.setText(String.format("%.1f", mGyrY));
-				mTvGyrZ.setText(String.format("%.1f", mGyrZ));
+				mTvGyrX.setText(String.format("%.4f", mGyrX));
+				mTvGyrY.setText(String.format("%.4f", mGyrY));
+				mTvGyrZ.setText(String.format("%.4f", mGyrZ));
 			}
 
 			// pre
