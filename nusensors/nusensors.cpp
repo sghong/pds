@@ -81,6 +81,9 @@ int main(int argc, char** argv)
     int flag_p = 0;
     int flag_l = 0;
 
+    if(argc != 2 )
+        usage(-1);
+
     for( int i=0; i < argc; i++ ){
         if( argv[i][0] == '-' ){
             switch(argv[i][1]){
@@ -127,7 +130,10 @@ int main(int argc, char** argv)
     for (int i=0 ; i<count ; i++) {
         if( 
                 ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
-                ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD )
+                ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
+                ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
+                ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
+                ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
           )
         printf("%s\n"
                 "\tvendor: %s\n"
@@ -147,29 +153,46 @@ int main(int argc, char** argv)
                 list[i].power);
     }
 
-    return 0;//sghong
-
     static const size_t numEvents = 16;
     sensors_event_t buffer[numEvents];
 
     for (int i=0 ; i<count ; i++) {
-        err = device->activate(device, list[i].handle, 0);
-        if (err != 0) {
-            printf("deactivate() for '%s'failed (%s)\n",
-                    list[i].name, strerror(-err));
-            return 0;
+        if( 
+                ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
+                ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
+                ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
+                ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
+                ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
+          )
+        {
+            err = device->activate(device, list[i].handle, 0);
+            if (err != 0) {
+                printf("deactivate() for '%s'failed (%s)\n",
+                        list[i].name, strerror(-err));
+                return 0;
+            }
         }
     }
 
     for (int i=0 ; i<count ; i++) {
-        err = device->activate(device, list[i].handle, 1);
-        if (err != 0) {
-            printf("activate() for '%s'failed (%s)\n",
-                    list[i].name, strerror(-err));
-            return 0;
+        if( 
+                ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
+                ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
+                ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
+                ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
+                ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
+          )
+        {
+            err = device->activate(device, list[i].handle, 1);
+            if (err != 0) {
+                printf("activate() for '%s'failed (%s)\n",
+                        list[i].name, strerror(-err));
+                return 0;
+            }
+            device->setDelay(device, list[i].handle, ms2ns(10*2));
         }
-        device->setDelay(device, list[i].handle, ms2ns(10));
     }
+
 
     do {
         int n = device->poll(device, buffer, numEvents);
@@ -189,7 +212,6 @@ int main(int argc, char** argv)
             }
 
             switch(data.type) {
-if (1)
                 case SENSOR_TYPE_ACCELEROMETER:
                 case SENSOR_TYPE_MAGNETIC_FIELD:
    //             case SENSOR_TYPE_ORIENTATION:
@@ -227,6 +249,7 @@ if (1)
                     break;
             }
         }
+    //} while (getch()); // fix that
     } while (1); // fix that
 
 
