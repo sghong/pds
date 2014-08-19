@@ -31,8 +31,8 @@ char const* getSensorName(int type) {
             return "Acc";
         case SENSOR_TYPE_MAGNETIC_FIELD:
             return "Mag";
-        case SENSOR_TYPE_ORIENTATION:
-            return "Ori";
+        //case SENSOR_TYPE_ORIENTATION:
+         //   return "Ori";
         case SENSOR_TYPE_GYROSCOPE:
             return "Gyr";
         case SENSOR_TYPE_LIGHT:
