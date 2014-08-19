@@ -16,6 +16,7 @@
 
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/cdefs.h>
 #include <sys/types.h>
@@ -37,24 +38,35 @@ char const* getSensorName(int type) {
             return "Gyr";
         case SENSOR_TYPE_LIGHT:
             return "Lux";
-        case SENSOR_TYPE_PRESSURE:
-            return "Bar";
-        case SENSOR_TYPE_TEMPERATURE:
-            return "Tmp";
+//        case SENSOR_TYPE_PRESSURE:
+ //           return "Bar";
+  //      case SENSOR_TYPE_TEMPERATURE:
+   //         return "Tmp";
         case SENSOR_TYPE_PROXIMITY:
             return "Prx";
-        case SENSOR_TYPE_GRAVITY:
-            return "Grv";
-        case SENSOR_TYPE_LINEAR_ACCELERATION:
-            return "Lac";
-        case SENSOR_TYPE_ROTATION_VECTOR:
-            return "Rot";
-        case SENSOR_TYPE_RELATIVE_HUMIDITY:
-            return "Hum";
-        case SENSOR_TYPE_AMBIENT_TEMPERATURE:
-            return "Tam";
+   //     case SENSOR_TYPE_GRAVITY:
+    //        return "Grv";
+    //    case SENSOR_TYPE_LINEAR_ACCELERATION:
+     //       return "Lac";
+      //  case SENSOR_TYPE_ROTATION_VECTOR:
+       //     return "Rot";
+       // case SENSOR_TYPE_RELATIVE_HUMIDITY:
+        //    return "Hum";
+        //case SENSOR_TYPE_AMBIENT_TEMPERATURE:
+         //   return "Tam";
     }
     return "ukn";
+}
+
+void usage(int ret)
+{
+    printf("Usage : test-nusensors [-A] [-M] [-G] [-P] [-L] \n"
+           " -A Accelerometer \n"
+           " -M Magnetic field \n"
+           " -G Gyrpscope \n"
+           " -P Proximity \n"
+           " -L Light \n");
+    exit(ret);
 }
 
 int main(int argc, char** argv)
@@ -68,19 +80,6 @@ int main(int argc, char** argv)
     int flag_g = 0;
     int flag_p = 0;
     int flag_l = 0;
-
-
-    err = hw_get_module(SENSORS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
-    if (err != 0) {
-        printf("hw_get_module() failed (%s)\n", strerror(-err));
-        return 0;
-    }
-
-    err = sensors_open(&module->common, &device);
-    if (err != 0) {
-        printf("sensors_open() failed (%s)\n", strerror(-err));
-        return 0;
-    }
 
     for( int i=0; i < argc; i++ ){
         if( argv[i][0] == '-' ){
@@ -100,9 +99,24 @@ int main(int argc, char** argv)
                 case 'L':
                     flag_l = 1;
                     break;
+                default : 
+                    usage(-1);
             }
         }
     }
+
+    err = hw_get_module(SENSORS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
+    if (err != 0) {
+        printf("hw_get_module() failed (%s)\n", strerror(-err));
+        return 0;
+    }
+
+    err = sensors_open(&module->common, &device);
+    if (err != 0) {
+        printf("sensors_open() failed (%s)\n", strerror(-err));
+        return 0;
+    }
+
 
     printf("%d flag:\n", flag_a);
 
