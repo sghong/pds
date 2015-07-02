@@ -1,11 +1,11 @@
 adsp_sensor
 ===========
 
-this is a simple repository for git 
+this is a repository for sensor stick
 
 
 
-yeah, we always give them 
+We always give them.
 
 
 0910
