@@ -15,4 +15,14 @@ We always give them.
 
 ##안녕하세요
 
-프리미엄 웹툰 서비스 "**[레진코믹스](http://www.lezhin.com)**" 를 만들고 있는 **레진엔터테인먼트**입니다.
+ <pre class="brush:bash;first-line:1" >
+ #include <stdio.h>
+ #include <stdlib.h>
+
+ int main()
+ {
+   printf("Hello World\n");
+   return EXIT_SUCCESS;
+ }
+ < /pre>
+
