@@ -15,14 +15,5 @@ We always give them.
 
 ##안녕하세요
 
- <pre class="brush:bash;first-line:1" >
- #include <stdio.h>
- #include <stdlib.h>
-
- int main()
- {
-   printf("Hello World\n");
-   return EXIT_SUCCESS;
- }
- < /pre>
+센서스틱을 한번 만들어 보려는 공간입니다. sghong@gmail.com
 
