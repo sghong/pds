@@ -1,9 +1,0 @@
-on post-fs
-    # Cap image
-    chown system system /dev/touch_monitor
-
-    # KX022
-    chown system system /sys/class/qeexo/kx022/latch
-    chown system system /sys/class/qeexo/kx022/latchdata
-    chown system system /sys/class/qeexo/kx022/pwr
-    chown system system /sys/class/qeexo/kx022/readmode
