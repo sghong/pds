@@ -1,4 +1,4 @@
-adsp_sensor
+stick_sensor
 ===========
 
 this is a repository for sensor stick
