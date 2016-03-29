@@ -4,7 +4,7 @@ CURDIR=`pwd`
 
 if [ $# -ne 1 ]
 then
-    echo "Usage : gosrc.sh dir [dirlist.txt]"
+    echo "Usage : gosrc.sh dir "
     exit
 fi
 
@@ -13,7 +13,7 @@ then
   mkdir $1
 fi
 
-CSCOPEFILENAME=$CURDIR/$1/dirlist.txt
+CSCOPEFILENAME=$HOME/dirlist.txt
 
 cd $1
 
