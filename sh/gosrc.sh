@@ -2,20 +2,20 @@
 
 CURDIR=`pwd`
 
-if [ $# -ne 1 ]
+if [ $# -ne 2 ]
 then
-    echo "Usage : gosrc.sh dir "
+    echo "Usage : gosrc.sh dirlist-file ctag-dir "
     exit
 fi
 
-if [ ! -d $1 ]
-then
-  mkdir $1
-fi
+#if [ ! -d $1 ]
+#then
+#  mkdir $1
+#fi
 
-CSCOPEFILENAME=$HOME/dirlist.txt
+CSCOPEFILENAME=$1
 
-cd $1
+cd $2
 
 rm -rf cscope.files cscope.files cscope.out ncscope.out
 
