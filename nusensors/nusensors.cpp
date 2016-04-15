@@ -28,6 +28,8 @@
 
 char const* getSensorName(int type) {
     switch(type) {
+        case SENSOR_TYPE_WRIST_TILT_GESTURE:
+            return "wrist";
         case SENSOR_TYPE_ACCELEROMETER:
             return "Acc";
         case SENSOR_TYPE_MAGNETIC_FIELD:
@@ -75,15 +77,22 @@ int main(int argc, char** argv)
     struct sensors_poll_device_t* device;
     struct sensors_module_t* module;
 
+    int sns_handle;
+
     int flag_a = 0;
     int flag_m = 0;
     int flag_g = 0;
     int flag_p = 0;
     int flag_l = 0;
+    int flag_wt = 0;
 
     if(argc != 2 )
         usage(-1);
 
+    sns_handle = atoi(argv[1]);
+    printf("sns handle [%d]\n",sns_handle);
+
+#if 0
     for( int i=0; i < argc; i++ ){
         if( argv[i][0] == '-' ){
             switch(argv[i][1]){
@@ -102,11 +111,16 @@ int main(int argc, char** argv)
                 case 'L':
                     flag_l = 1;
                     break;
+                case 'W':
+                    flag_wt = 1;
+                    break;
                 default : 
                     usage(-1);
             }
         }
     }
+#endif
+
 
     err = hw_get_module(SENSORS_HARDWARE_MODULE_ID, (hw_module_t const**)&module);
     if (err != 0) {
@@ -126,13 +140,14 @@ int main(int argc, char** argv)
     struct sensor_t const* list;
     int count = module->get_sensors_list(module, &list);
     printf("%d sensors found:\n", count);
-
+#if 0
     for (int i=0 ; i<count ; i++) {
         if( 
                 ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
                 ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
                 ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
                 ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
+                ( flag_wt == 1 && list[i].type == SENSOR_TYPE_WRIST_TILT_GESTURE) ||
                 ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
           )
         printf("%s\n"
@@ -156,15 +171,6 @@ int main(int argc, char** argv)
     static const size_t numEvents = 16;
     sensors_event_t buffer[numEvents];
 
-    for (int i=0 ; i<count ; i++) {
-        if( 
-                ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
-                ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
-                ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
-                ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
-                ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
-          )
-        {
             err = device->activate(device, list[i].handle, 0);
             if (err != 0) {
                 printf("deactivate() for '%s'failed (%s)\n",
@@ -173,25 +179,31 @@ int main(int argc, char** argv)
             }
         }
     }
+#endif
+    static const size_t numEvents = 16;
+    sensors_event_t buffer[numEvents];
 
+#if 0
     for (int i=0 ; i<count ; i++) {
         if( 
                 ( flag_a == 1 && list[i].type == SENSOR_TYPE_ACCELEROMETER ) ||
                 ( flag_m == 1 && list[i].type == SENSOR_TYPE_MAGNETIC_FIELD ) ||
                 ( flag_g == 1 && list[i].type == SENSOR_TYPE_GYROSCOPE) ||
                 ( flag_p == 1 && list[i].type == SENSOR_TYPE_PROXIMITY) ||
+                ( flag_wt == 1 && list[i].type == SENSOR_TYPE_WRIST_TILT_GESTURE) ||
                 ( flag_l == 1 && list[i].type == SENSOR_TYPE_LIGHT) 
           )
         {
-            err = device->activate(device, list[i].handle, 1);
+#endif
+            err = device->activate(device, sns_handle, 1);
             if (err != 0) {
-                printf("activate() for '%s'failed (%s)\n",
-                        list[i].name, strerror(-err));
+                printf("activate() for '%d'failed (%s)\n",
+                        sns_handle, strerror(-err));
                 return 0;
             }
-            device->setDelay(device, list[i].handle, ms2ns(10*2));
-        }
-    }
+            device->setDelay(device, sns_handle, ms2ns(10*2));
+//        }
+ //   }
 
 
     do {
