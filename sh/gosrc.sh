@@ -4,6 +4,8 @@ CURDIR=`pwd`
 
 if [ $# -ne 2 ]
 then
+    echo "On the top dir"
+    echo "~/gitsghong/pds/sh/gosrc.sh /home/p12791/dirlist.txt ctag/"
     echo "Usage : gosrc.sh dirlist-file ctag-dir "
     exit
 fi
