@@ -1,0 +1,39 @@
+#!/bin/bash
+#################################################################################
+# Author: Tang Zibo <tangzb0114@thundersoft.com>
+# Copyright (c) 2020
+# All Rights Reserved by Thunder Software Technology Co., Ltd and its affiliates.
+# You may not use, copy, distribute, modify, transmit in any form this file
+# except in compliance with THUNDERSOFT in writing by applicable law.
+#################################################################################
+
+init_device_env() {
+    local func_name="init_device_env"
+    echo "INFO: Enter $func_name()"
+
+## project configuration information
+    ProjectName="Turbox_C610"
+    BaseLine="LA1.0"
+
+# Version
+    MajorVersion="ES"
+    SubVersion="r000001"
+
+
+# Device configure information
+#    DEV_BL="true"
+#    DEV_CDSP="true"
+#    DEV_BL="true"
+#    DEV_RPM="true"
+#    DEV_TZ="true"
+#    DEV_ADSP="true"
+#    DEV_CDSP="true"
+#    DEV_MPSS="true"
+#    DEV_SLPI="true"
+#    DEV_HLOS="true"
+#    DEV_UBF="true"
+#    DEV_UCI="true"
+#    DEV_FASTBOOT="true"
+#    DEV_FLAT="true"
+#    DEV_META="true"
+}
