@@ -1,0 +1,586 @@
+    1  git branch -r
+    2  git branch -a
+    3  tig
+    4  pwd
+    5  ls
+    6  pwd
+    7  ls
+    8  cd ..
+    9  ls
+   10  ls -al
+   11  cd qcacld-3.0_S_OS/
+   12  s
+   13  ls
+   14  branch -a
+   15  git branch -a
+   16  ls
+   17  cd 
+   18  ls
+   19  vi waipio_sync.sh 
+   20  cat waipio_sync.sh 
+   21  cd work
+   22  ls
+   23  cd HMT_eval/
+   24  ls
+   25  git clone https://github.qualcomm.com/SS-release-management/qca-wifi-host-cmn_S_OS/
+   26  ls
+   27  cd qca-wifi-host-cmn_S_OS
+   28  git branch
+   29  git branch -a
+   30  git checkout SS.HMT.Eval
+   31  ls
+   32  cd ..
+   33  ls
+   34  git clone https://github.qualcomm.com/SS-release-management/fw-api_S_OS/
+   35  cd cd fw-api_S_OS
+   36  cd fw-api_S_OS
+   37  ls
+   38  git checkout SS.HMT.Eval
+   39  cd ..
+   40  ls
+   41  git clone https://github.qualcomm.com/SS-release-management/SS_CNSS2_OEMSS/
+   42  cd cd SS_CNSS2_OEMSS
+   43  cd SS_CNSS2_OEMSS
+   44  git checkout SS.HMT.Eval
+   45  git branch -a
+   46  cd ..
+   47  cd qca-wifi-host-cmn_S_OS/
+   48  git checkout SS.SOS.Rel.Waipio.GS22
+   49  vi wmi/inc/wmi_unified_api.h 
+   50  ls
+   51  cd ..
+   52  ls
+   53  cd fw-api_S_OS/
+   54  ls
+   55  git branch -a
+   56  git branch Rel.Waipio.GS22
+   57  git branch -a
+   58  git checkout Rel.Waipio.GS22
+   59  git branch -a
+   60  ls
+   61  git branch -r
+   62  git branch -a
+   63  pwd
+   64  ls
+   65  cd ..
+   66  ls
+   67  cd qcacld-3.0_S_OS/
+   68  ls
+   69  git branch -a
+   70  git checkout SS.SOS.Rel.Waipio.GS22
+   71  cd ..
+   72  ls
+   73  cd fw-api_S_OS/
+   74  ls
+   75  git branch -r
+   76  git branch -a
+   77  git checkout SS.SOS.Rel.Waipio.GS22
+   78  git branch -a
+   79  git branch -d Rel.Waipio.GS22
+   80  cd ..
+   81  ls
+   82  rm -rf fw-api_S_OS/
+   83  cat ~/waipio_sync.sh 
+   84  cd git clone https://github.qualcomm.com/SS-release-management/fw-api_S_OS/
+   85  git clone https://github.qualcomm.com/SS-release-management/fw-api_S_OS/
+   86  cd fw-api_S_OS
+   87  git branch -a
+   88  git checkout SS.SOS.Rel.Waipio.GS22
+   89  cd
+   90  cd workspace
+   91  ls
+   92  cd hmt_evl/
+   93  ls
+   94  ls -alt
+   95  cd CI_LA.VENDOR.1.0-45002-WAIPIO.1.CONSOLIDATED-30
+   96  ls
+   97  cp -ar wlan/ wlan.org
+   98  ll
+   99  cd work
+  100  ls
+  101  cd HMT_eval/
+  102  ls
+  103  cd qca-wifi-host-cmn_S_OS/
+  104  ls
+  105  grep -nr -E "_SEC|SEC_" *
+  106  grep -nr CONFIG_SEC *
+  107  bash
+  108  who
+  109  pwd
+  110  ls
+  111  clear
+  112  pwd
+  113  ls
+  114  cd workspace
+  115  ls
+  116  df -h
+  117  cd 
+  118  ll
+  119  cd 
+  120  ls
+  121  cd workspace
+  122  ls
+  123  cd ddd/
+  124  ls
+  125  cd SS_CNSS2_OEMSS
+  126  ls
+  127  git branch
+  128  ls
+  129  ls -al
+  130  pwd
+  131  cd ..
+  132  ls
+  133  cd ..
+  134  ls
+  135  cd hmt_evl/
+  136  ls
+  137  cd ..
+  138  ls
+  139  cd 
+  140  ls
+  141  cd work
+  142  ls
+  143  cd SS/
+  144  ls
+  145  cd SS_CNSS2_OEMSS/
+  146  l
+  147  git branch
+  148  ls
+  149  cd drivers/
+  150  ls
+  151  cd bus/
+  152  ls
+  153  cd mhi/
+  154  ls
+  155  ls -al
+  156  pwd
+  157  ls
+  158  pushd .
+  159  cd 
+  160  ls
+  161  cd work
+  162  ls
+  163  cd SS/
+  164  ls
+  165  cd ..
+  166  ls
+  167  cd HMT_eval/
+  168  ls
+  169  cd ..
+  170  ls
+  171  cd tmp/
+  172  ls
+  173  cd 
+  174  ls
+  175  cd tmp/
+  176  ls
+  177  cd ddd/
+  178  ls
+  179  cd ..
+  180  ls
+  181  cd ddd/
+  182  ls
+  183  cd ..
+  184  lscd ..
+  185  cd ..
+  186  ls
+  187  cd workspace
+  188  ls
+  189  cd ddd/
+  190  ls
+  191  cd ..
+  192  ls
+  193  rm -rf ddd/
+  194  ;s
+  195  ls
+  196  cd ..
+  197  ls
+  198  exit
+  199  ls
+  200  ll
+  201  cd workspace
+  202  ls
+  203  cd 
+  204  ls
+  205  cd work
+  206  ls
+  207  cd ..
+  208  ls
+  209  cd \\snowcone\builds920\PROD\KERNEL.PLATFORM.1.0-48402-kernel.1-8
+  210  ls
+  211  bash
+  212  bash
+  213  who
+  214  screen
+  215  ls
+  216  screen -ls
+  217  alias
+  218  pwd
+  219  ls
+  220  ls -al
+  221  vi .bashrc 
+  222  bc
+  223  vi .bashrc 
+  224  bash
+  225  ls
+  226  bash
+  227  ls
+  228  cd workspace
+  229  ls
+  230  cd ..
+  231  ls
+  232  cd workspace
+  233  ls
+  234  bash
+  235  ls
+  236  ls -al
+  237  vi .bashrc
+  238  ls
+  239  ls -al
+  240  rm .bashrc.swp 
+  241  vi .bashrc 
+  242  pwd
+  243  ls
+  244  alias
+  245  1
+  246  ls
+  247  cd workspace/
+  248  ls
+  249  cd sp/
+  250  2
+  251  ls
+  252  3
+  253  ls
+  254  4
+  255  cd
+  256  ls
+  257  cd workspace
+  258  cd ..
+  259  l
+  260  ll
+  261  vi .bashrc 
+  262  ls
+  263  cd work
+  264  ls
+  265  cd SS/
+  266  ls
+  267  cd SS_CNSS2_OEMSS/
+  268  ls
+  269  git log
+  270  pwd
+  271  ls
+  272  git status
+  273  ls
+  274  pwd
+  275  git log 9f9417d2c2a156bc7d5e4a97f0ebd69fd10fa3db
+  276  git show 9f9417d2c2a156bc7d5e4a97f0ebd69fd10fa3db
+  277  git patch
+  278  cat ~/cmd.txt 
+  279  who
+  280  ps -ef | grep jaewma
+  281  pwd
+  282  ls
+  283  clear
+  284  pwd
+  285  ls
+  286  ls -al
+  287  cd drivers/
+  288  ls
+  289  cd soc/
+  290  ls
+  291  cd ..
+  292  ls
+  293  cd char/
+  294  ls
+  295  cd ..
+  296  ls
+  297  pwd
+  298  ls
+  299  cd pci/
+  300  ls
+  301  cd controller/
+  302  ls
+  303  cd ..
+  304  ls
+  305  ll
+  306  cd ..
+  307  l
+  308  cd ..
+  309  cd drivers/net/wireless/
+  310  ll
+  311  cd cnss2
+  312  lk
+  313  ll
+  314  tig .
+  315  cd ..
+  316  ls
+  317  cd ..
+  318  ls
+  319  cd qcacld-3.0_S_OS/
+  320  ls
+  321  tig
+  322  git pull
+  323  git branch
+  324  git branch -a
+  325  tig
+  326  ls
+  327  git branch -a
+  328  git checkout SS.HMT.Eval
+  329  tig
+  330  ls
+  331  cd workspace
+  332  ls
+  333  cd kodiak/
+  334  ls
+  335  cd ..
+  336  ls
+  337  cd 
+  338  ls
+  339  cd work
+  340  ls
+  341  cd HMT_eval/
+  342  ls
+  343  cd SS_CNSS2_OEMSS/
+  344  ls
+  345  git branch
+  346  git branch -a
+  347  cd .
+  348  cd ..
+  349  ls
+  350  cd qcacld-3.0_S_OS/
+  351  ls
+  352  git branch -a
+  353  cd ..
+  354  ls
+  355  cd ..
+  356  ls
+  357  cd SS/
+  358  ls
+  359  cd qcacld-3.0_S_OS/
+  360  ls
+  361  git branch -a
+  362  tig
+  363  ls
+  364  git branch -a
+  365  cd ..
+  366  ls
+  367  cd qcacld-3.0_S_OS/
+  368  ls
+  369  git branch -a
+  370  git checkout SS.SOS.Rel.Waipio.GS22
+  371  cd ..
+  372  ls
+  373  cd HMT_eval/
+  374  ls
+  375  cd qcacld-3.0_S_OS/
+  376  ls
+  377  git branch -a
+  378  git checkout SS.HMT.Eval
+  379  git branch -a
+  380  ls
+  381  git log
+  382  git pull
+  383  cd ..
+  384  cd qca-wifi-host-cmn_S_OS/
+  385  git branch -a
+  386  git checkout SS.HMT.Eval
+  387  git branch
+  388  git log
+  389  git pull
+  390  git log
+  391  cd ..
+  392  cd fw-api_S_OS/
+  393  git branch -a
+  394  git checkout SS.HMT.Eval
+  395  git branch -a
+  396  git log
+  397  git pull
+  398  ls
+  399  cd ..
+  400  ls
+  401  cd SS_CNSS2_OEMSS/
+  402  git branch -a
+  403  git pull
+  404  git branch -a
+  405  git checkout HMT.Eval.msm-5.10
+  406  git checkout SS.HMT.Eval.msm-5.10
+  407  bash
+  408  bash
+  409  cd work/SS/
+  410  ls
+  411  cd SS_CNSS2_OEMSS/
+  412  git branch -a
+  413  git pull
+  414  git branch -a
+  415  git checkout SS.HMT.Eval.msm-5.10
+  416  git log
+  417  git diff eaf9b4f06c4bce60317b1db97bd78399f65055d7
+  418  ls
+  419  git diff eaf9b4f06c4bce60317b1db97bd78399f65055d7 > diff.diff
+  420  vi diff.diff 
+  421  git log
+  422  mv diff.diff diff_eaf9b.diff 
+  423  git diff 844b88642920a5772c8e5fc37e53d2a031292ca6 > diff_844b8.diff
+  424  git diff f120758a71c5dd6f5917d37566b2883bec82d377 > diff_f1207.diff
+  425  ls
+  426  git status
+  427  vi diff_eaf9b.diff 
+  428  git diff --stat
+  429  git diff eaf9b4f06c4bce60317b1db97bd78399f65055d7 --name--only
+  430  git show eaf9b4f06c4bce60317b1db97bd78399f65055d7 --name--only
+  431  git show eaf9b4f06c4bce60317b1db97bd78399f65055d7 --name-only
+  432  vi diff_eaf9b.diff 
+  433  git show eaf9b4f06c4bce60317b1db97bd78399f65055d7 --name-only
+  434  git log
+  435  git show 844b88642920a5772c8e5fc37e53d2a031292ca6 --name-only
+  436  git show f120758a71c5dd6f5917d37566b2883bec82d377 --name-only
+  437  cd ..
+  438  ls
+  439  cd qcacld-3.0_S_OS/
+  440  ls
+  441  pwd
+  442  cd ..
+  443  ls
+  444  cd HMT_eval/
+  445  ls
+  446  cd qcacld-3.0_S_OS/
+  447  ls
+  448  git branch -a
+  449  ls
+  450  git log
+  451  git show 25201a1bc2c49865276642554cef60184906c97c --name-only
+  452  git --help
+  453  /:
+  454  git push 
+  455  git push --help
+  456  pwd
+  457  ls
+  458  cd workspace
+  459  ls
+  460  cd ..
+  461  ls
+  462  mv work workspace
+  463  ls
+  464  cd tmp/
+  465  ls
+  466  cd ddd/
+  467  ls
+  468  ll
+  469  cd ..
+  470  ls
+  471  rm -rf ddd
+  472  ls
+  473  cd ..
+  474  ls
+  475  cd workspace
+  476  ls
+  477  cd work/
+  478  ls
+  479  cd SS/
+  480  ls
+  481  cd ..
+  482  ls
+  483  cd tmp/
+  484  ls
+  485  bash
+  486  pw
+  487  dls
+  488  pwd
+  489  ls
+  490  cd /local2/mnt/workspace/
+  491  ls
+  492  ls -al
+  493  cd LA.VENDOR.1.0.r1-11400-WAIPIO\vendor\qcom\opensource
+  494  ls
+  495  cd LA.VENDOR.1.0.r1-11400-WAIPIO
+  496  ls
+  497  cd vendor/qcom/opensource/wlan/
+  498  ls
+  499  du -h ./
+  500  ls
+  501  pwd
+  502  ls
+  503  ping @Bryan Hong (Seokgi) (Consultant) 부장님,
+  504  Window server는 아래 서버를 사용하시면 됩니다. QC server라 본인 Qualnet id/pw로 로그인하셔서 사용하시면 됩니다. 
+  505  Window server (QC) : tomaleez2.ap.qualcomm.com [10.240.71.224]
+  506  Regards,
+  507  Will
+  508  ping tomaleez2.ap.qualcomm.com 
+  509  ssh tomaleez2.ap.qualcomm.com 
+  510  cd 
+  511  ls
+  512  cd workspace
+  513  ls
+  514  cd work/
+  515  ls
+  516  find ./ -name *.patch
+  517  ls
+  518  cd SS/
+  519  ls
+  520  cd Exynos_platform/
+  521  ls
+  522  git branch
+  523  git status
+  524  ls
+  525  git log
+  526  git status
+  527  git push
+  528  git push 
+  529  ls
+  530  cd ..
+  531  ls
+  532  cd ..
+  533  ls
+  534  cd SS/
+  535  ls
+  536  cd ..
+  537  ls
+  538  cd SS/
+  539  ls
+  540  cd qcacld-3.0_S_OS/
+  541  ls
+  542  git log
+  543  git branch
+  544  cd ..
+  545  ls
+  546  cd qcacld-3.0_S_OS/
+  547  ls
+  548  git pull
+  549  git branch -a
+  550  git checkout SS.SOS.Rel.Palima.Q4
+  551  git log
+  552  cd ..
+  553  cd qca-wifi-host-cmn_S_OS/
+  554  ls
+  555  git branch
+  556  git pull
+  557  git checkout SS.SOS.Rel.Palima.Q4
+  558  git log
+  559  ls
+  560  git remote add quic_origin git://10.240.16.39/platform/vendor/qcom-opensource/wlan/qca-wifi-host-cmn.git
+  561  git remote -v
+  562  git merge quic/wlan-cmn.driver.lnx.2.0.r30-rel
+  563  git pull quic_origin
+  564  git merge quic/wlan-cmn.driver.lnx.2.0.r30-rel
+  565  git merge wlan-cmn.driver.lnx.2.0.r30-rel
+  566  git merge quic_origin/wlan-cmn.driver.lnx.2.0.r30-rel
+  567  git status
+  568  git mergetool
+  569  git status
+  570  history > ~/cmd2.txt
+
+  git clone ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/fw-api.git
+
+  560  git remote add quic_origin ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/qcacld-3.0.git
+  560  git remote add quic_origin ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/fw-api.git
+  560  git remote add quic_origin ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/qcacld-3.0.git
+  git pull quic_origin
+
+
+
+  git clone ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/fw-api.git
+
+  //merge 
+  git remote add quic_origin ssh://git-android-kor:29418/platform/vendor/qcom-opensource/wlan/fw-api.git
+  git pull quic_origin
+  git merge wlan-api.lnx.1.0-220310
