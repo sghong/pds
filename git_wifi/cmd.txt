@@ -1,0 +1,38 @@
+  143  git diff > temp.patch
+  144  ls -al
+  145  git reset --hard
+  146  git diff
+  147  cd /local/mnt/workspace/
+  148  pwd
+  149  cd -
+  150  patch -p1 < /local/mnt/workspace
+  151  patch -p1 < /local/mnt/workspace/CR3081251.diff 
+  152  ls 
+  153  vi core/mac/src/pe/sch/sch_api.c
+  154  vi core/mac/src/pe/sch/sch_api.c.rej 
+  155  vi 
+  156  vi core/mac/src/pe/sch/sch_api.c
+  157  git diff
+  158  vi core/mac/src/pe/sch/sch_api.c
+  159  vi core/mac/src/pe/sch/sch_api.c.rej 
+  160  git diff
+  161  git reset --hard
+  162  git am /local/mnt/workspace/CR3081251.diff 
+  163  git diff
+  164  git status
+  165  patch -p1 < /local/mnt/workspace/CR3081251.diff 
+  166  fg
+  167  vi core/mac/src/pe/sch/sch_api.c
+  168  fg
+  169  git diff
+  170  git status
+  171  git add core/mac/inc/sir_mac_prot_def.h core/mac/src/pe/sch/sch_api.c
+  172  git am --continue
+  173  git log
+  174  git log -p
+  175  git status
+  176  git log
+  177  ls
+  178  git log
+  179  history
+

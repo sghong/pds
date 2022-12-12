@@ -1,0 +1,189 @@
+set nocompatible
+filetype off
+
+call plug#begin('~/.vim/plugged')
+
+"my plugins'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-scripts/TagHighlight'
+Plug 'majutsushi/tagbar'
+"Plug 'hari-rangarajan/cctree'
+Plug 'skroll/vim-easycolour'
+Plug 'wesleyche/srcexpl'
+Plug 'steffanc/cscopemaps.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+"Plug 'jiangmiao/auto-pairs'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'rdnetto/ycm-generator', { 'branch': 'stable'}
+"Plug 'junegunn/fzf.vim'
+
+call plug#end()
+
+filetype plugin indent on
+
+"set cindent
+set autoindent
+set smartindent
+
+"tabs
+"set expandtab
+set tabstop=4
+set shiftwidth=4
+set smarttab "remove tab(space) width of shiftwidth"
+
+
+set wrap "Display text line longer than the width of the window to the next windows line
+set nobackup
+set noswapfile
+set visualbell
+set ruler "show column and row of cusor
+set showcmd " show command in the last line of the screen
+set number "line number"
+set showmatch
+
+" encoding
+set fencs=ucs-bom,utf-8,euc-kr.latin1 "file encoding
+set fileencoding=utf-8
+set tenc=utf-8
+
+" search options
+set hlsearch
+set ignorecase
+
+" remove staircase when copy
+"set paste!
+
+set listchars=tab:>-,trail:-,eol:$
+set lbr
+set incsearch
+
+set t_Co=256
+set background=dark
+set wrapscan "nowrapscan
+
+syntax on
+
+"colorscheme colorful256 
+colorscheme bandit
+
+"backspace / delete
+set backspace=indent,eol,start
+set t_kb= "ctrl+v + backspace
+"set t_kD=[3;5~] "ctrl+v + delete
+
+set history=50
+
+set ffs=unix
+"set mouse=a
+set ttymouse=xterm2
+
+set tags=./tags
+set tagbsearch
+
+"ftplugin
+runtime ftplugin/man.vim        "for Man Page
+runtime ftplugin/cpp.vim        "for cpp file 
+runtime ftplugin/c.vim        "for cpp file 
+runtime ftplugin/automake.vim        "for automake file
+
+"No timeout for Key map
+set notimeout
+
+"fzf
+set rtp+=~/.fzf
+nmap <F5> :FZF<CR>
+
+"TagHighlight
+nmap <F6> :UpdateTypesFileOnly<CR>
+
+"Taglist Key mappting
+nnoremap <silent> <F7> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_left = 1
+let g:tagbar_width = 45
+let g:tagbar_sort = 0
+let g:tagbar_indent = 1
+
+"NERD Tree
+let NERDTreeWinPos = "right" "NERD tree position left
+nmap <F8> :NERDTreeToggle<CR>
+nmap <F9>  :tabp<CR>
+nmap <F10> :tabn<CR>
+
+"Source Explorer
+nmap <F12> :SrcExplToggle<CR> 
+nmap <C-H> <C-W>h "Move left
+nmap <C-J> <C-W>j "Move bottom
+nmap <C-K> <C-W>k "Move up
+nmap <C-L> <C-W>l "Move right
+
+let g:SrcExpl_winHeight = 8 
+let g:SrcExpl_refreshTime = 1000 "refreshing time = 100ms
+let g:SrcExpl_jumpKey = "<ENTER>" "jump to definition
+let g:SrcExpl_gobackKey = "<SPACE>" "back
+
+" // In order to avoid conflicts, the Source Explorer should know what plugins except
+" // itself are using buffers. And you need add their buffer names into below list
+" // according to the command :buffers!
+let g:SrcExpl_pluginList = [
+        \ "__Tag_List__",
+        \ "_NERD_tree_",
+        \ "Source_Explorer"
+    \ ]
+
+" // The color schemes used by Source Explorer. There are five color schemes
+" // supported for now - Red, Cyan, Green, Yellow and Magenta. Source Explorer
+" // will pick up one of them randomly when initialization.
+ let g:SrcExpl_colorSchemeList = [
+         \ "Red",
+         \ "Cyan",
+         \ "Green",
+         \ "Yellow",
+         \ "Magenta"
+     \ ]
+" // Enable/Disable the local definition searching, and note that this is not 
+" // guaranteed to work, the Source Explorer doesn't check the syntax for now. 
+" // It only searches for a match with the keyword according to command 'gd' 
+let g:SrcExpl_searchLocalDef = 0 
+
+" // Workaround for Vim bug @https://goo.gl/TLPK4K as any plugins using autocmd for
+" // BufReadPre might have conflicts with Source Explorer. e.g. YCM, Syntastic etc.
+let g:SrcExpl_nestedAutoCmd = 1
+
+" // Do not let the Source Explorer update the tags file when opening 
+let g:SrcExpl_isUpdateTags = 0 
+
+" // Set "<F3>" key for displaying the previous definition in the jump list 
+let g:SrcExpl_prevDefKey = "<F3>" 
+
+" " // Set "<F4>" key for displaying the next definition in the jump list 
+let g:SrcExpl_nextDefKey = "<F4>" 
+
+"Auto Pairs"
+let g:AutoPairsFlyMode = 0
+let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+nnoremap <c-]> <c-]>zz
+nnoremap <c-t> <c-t>zz
+
+" Search mappings: These will make it so that going to the next one in a
+" search will center on the line it's found in.
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nmap j gj
+nmap k gk
+
+vmap j gj
+vmap k gk
+
+"YouCompleteMe"
+"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+"let g:ycm_autoclose_preview_window_after_insertion = 1
+"let g:ycm_autoclose_preview_window_after_completion = 1
+
+"Airline Theme"
+let g:airline_theme='angr'
+
+packadd! matchit
+let b:match_words = '<<<<<<<:=======:>>>>>>>'

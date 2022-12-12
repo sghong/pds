@@ -1,0 +1,73 @@
+tar zcvf 5.2.0.253-HP220316A.tgz --exclude ".git" qcacld-3.0  qca-wifi-host-cmn  SS_CNSS2_OEMSS
+vi qcacld-3.0/core/mac/inc/qwlan_version.h
+tar zcvf 5.2.0.253-HP220318A.tgz --exclude ".git" qcacld-3.0  qca-wifi-host-cmn
+7zr x ../wlan_mfg_SS_0323.7z
+find ./ -ctime -6 -type f -not -path "./.git/*" | xargs tar zcvf qcacld-3.0_0331.tgz 
+//ctime 에서 6시간.
+//-cmin 10 (10분전)
+find ./ -ctime -6 -type f -not -path "./.git/*" | xargs tar zcvf vendor_0331.tgz
+
+git clone https://github.qualcomm.com/SS-release-management/Exynos_platform.git -b pamir-hsp
+
+cd ../wlan
+git clone https://github.qualcomm.com/SS-release-management/qcacld-3.0_R8.git -b pamir-hsp qcacld-3.0
+git clone https://github.qualcomm.com/SS-release-management/qca-wifi-host-cmn_R8 -b pamir-hsp qca-wifi-host-cmn
+git clone https://github.qualcomm.com/SS-release-management/fw-api_R8 -b pamir-hsp fw-api
+
+git diff --name-only 2.0.9.8Z-HP220511A | xargs tar zcvf 1.tgz
+
+find . -type f | wc -l
+
+최근 커밋에서 워크스페이스의 변화된 파일을 가져올 수 있다.
+git diff --name-only HEAD~ | xargs tar zcvf ddd.tgz
+
+git diff --name-only 2.0.9.10E-HP220531A | xargs 7zr a oem-ss-q4.7z
+
+git remote 연결되있을때, git push --tags 하면 너무 오래걸린다.
+일단 tag 를 만들고,
+git tag 2.0.9.11D-HP220608A
+git push origin 2.0.9.11D-HP220608A
+
+7zr a -xr\!.git 2.0.9.11D-HP220608A-q4-driver.7z fw-api/
+
+diff -uNr qcacld-3.0/ /home/bryanhong/workspace/SS/R0Q/latest/0615/qcacld-3.0 -x ".git" > a
+
+cp 할때 특정폴더 제외하는 방법 알아내자, rsync 를 사용하면 됨.
+rsync -avz --exclude ".git" qcacld-3.0 tmp/
+
+git format-patch -2
+git format-patch A...B
+git format-patch <commit id>
+
+git checkout id
+git format-patch -1
+git checkout --
+
+
+git reset HEAD~<number>
+git checkout -- <file>
+git push -f origin <branch name>
+
+git branch <branch name>
+git checkout <branch name>
+git push origin <branch name>
+
+git branch -d <branch name>
+git push origin :<branch name>
+
+git checkout --orphan SS.TOS.DM3Q.wifi7_eval --> 빈 브랜치 만들기
+
+//원하는 tag 에 해당하는 branch 만들기
+git checkout tags/5.2.1.25G-DM3Q220817A -b SS.TOS.DM3Q
+git checkout 5.2.1.25G-DM3Q220817A -b SS.TOS.DM3Q
+
+git push origin 5.2.1.31S-DM3Q220831A
+
+git tag 5.2.1.31S-DM220913A f37ced66d540c2d8d7ff8302e612b2583446e830
+git tag -d tagname
+git push origin :tagname
+
+rm -rf `find ./ -name qcacld*`
+
+git log -L :check_for_sr_cmd:wpa_driver_ss_lib.c
+
