@@ -34,6 +34,9 @@ diff -uNr qcacld-3.0/ /home/bryanhong/workspace/SS/R0Q/latest/0615/qcacld-3.0 -x
 
 cp 할때 특정폴더 제외하는 방법 알아내자, rsync 를 사용하면 됨.
 rsync -avz --exclude ".git" qcacld-3.0 tmp/
+`/` 를 붙이면 하위 폴더가 cp된다.
+rsync -avz --exclude ".git" qcacld-3.0 tmp/
+rsync -avz --exclude ".git" fw-api qcacld-3.0 qca-wifi-host-cmn /home/bryanhong/workspace/SS/VST2/init/0130/file/pre-cs1_ssf_1/vendor/qcom/opensource/wlan/
 
 git format-patch -2
 git format-patch A...B
@@ -71,3 +74,8 @@ rm -rf `find ./ -name qcacld*`
 
 git log -L :check_for_sr_cmd:wpa_driver_ss_lib.c
 
+//git log 폴더, 수정내역
+git log msm-kernel/drivers/pci/controller
+
+//가장 최근 commit comment 수정
+git commit --amend
