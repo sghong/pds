@@ -79,3 +79,5 @@ git log msm-kernel/drivers/pci/controller
 
 //가장 최근 commit comment 수정
 git commit --amend
+
+find . -print | xargs dos2unix
